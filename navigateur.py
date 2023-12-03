@@ -35,13 +35,6 @@ def open_newtab(url):
 	driver.switch_to.new_window('tab')
 	get_url(url)
 
-def print_request(request):
-	print(request.path)
-	print(request.method)
-	print(request.headers)
-	print(request.body)
-
-
 def test():
 	ouvrir_session_chrome()
 	get_url("https://adblock-tester.com/")

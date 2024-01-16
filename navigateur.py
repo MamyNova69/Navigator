@@ -11,6 +11,7 @@ def ouvrir_session_chrome():
 	# chrome_options.add_argument('--disable-web-security')
 	# chrome_options.add_argument("--headless")
 	chrome_options.add_argument("--mute-audio")
+	# chrome_options.add_argument("--remote-debugging-port=12345") # select a port
 	# chrome_options.add_argument('--incognito')
 	chrome_options.add_argument("start-maximized")
 	chrome_options.add_argument('--log-level=3')

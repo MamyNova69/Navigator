@@ -6,6 +6,7 @@ from selenium.webdriver.support import expected_conditions as EC
 
 def ouvrir_session_chrome():
 	chrome_options = webdriver.ChromeOptions()
+	service = webdriver.ChromeService(executable_path="chromedriver.exe")
 	# chrome_options.add_argument('--ignore-certificate-errors')
 	# chrome_options.add_argument('--allow-insecure-localhost')
 	# chrome_options.add_argument('--disable-web-security')
@@ -22,7 +23,7 @@ def ouvrir_session_chrome():
 	# path_to_extension = r"ublock/uBlock-Origin.crx"
 	# chrome_options.add_extension(path_to_extension)
 	global driver
-	driver = webdriver.Chrome(options=chrome_options)
+	driver = webdriver.Chrome(service=service, options=chrome_options)
 	# driver.execute_script("Object.defineProperty(navigator, 'webdriver', {get: () => undefined})") 
 	global wait
 	wait = WebDriverWait(driver, 20)

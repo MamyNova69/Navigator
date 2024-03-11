@@ -7,6 +7,7 @@ from selenium.webdriver.support import expected_conditions as EC
 def ouvrir_session_chrome():
 	chrome_options = webdriver.ChromeOptions()
 	service = webdriver.ChromeService(executable_path="chromedriver.exe")
+	# A telecharger ici : https://googlechromelabs.github.io/chrome-for-testing/known-good-versions-with-downloads.json
 	# chrome_options.add_argument('--ignore-certificate-errors')
 	# chrome_options.add_argument('--allow-insecure-localhost')
 	# chrome_options.add_argument('--disable-web-security')

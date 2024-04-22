@@ -26,14 +26,11 @@ class Navigator_local_chrome:
 		self.service = webdriver.ChromeService(executable_path="chromedriver-win64/chromedriver.exe")
 		# A telecharger ici : https://googlechromelabs.github.io/chrome-for-testing/known-good-versions-with-downloads.json
 		self.driver = webdriver.Chrome(service=self.service, options=self.chrome_options) # add service=self.service, if you want to use a specific version of chrome in local mode, else it will use the default chrome installed on your computer
-		self.wait = WebDriverWait(self.driver, 20)
+		self.driver.execute_script("Object.defineProperty(navigator, 'webdriver', {get: () => undefined})")
+		self.wait = WebDriverWait(self.driver, 30)
 
 	def get_url(self, url):
 		self.driver.get(url)
-		# injection de javascript pour récupérer les requêtes réseau (attention, pas toutes les requêtes sont récupérées)
-		# à vérifier (errror : circular reference)
-		# JS_get_network_requests = "var performance = window.performance || window.msPerformance || window.webkitPerformance || {}; var network = performance.getEntries() || {}; return network;"
-		# self.network_requests = self.driver.execute_script(JS_get_network_requests)
 		self.wait.until(EC.presence_of_element_located((By.TAG_NAME, 'body')))
 
 	def refresh(self):
@@ -67,31 +64,20 @@ class Navigator_local_chrome:
 class Navigator_vps_docker:
 	def __init__(self):
 		self.chrome_options = webdriver.ChromeOptions()
-		self.chrome_options.add_argument("--headless")
 		self.chrome_options.add_argument("--mute-audio")
 		self.chrome_options.add_argument('--log-level=3')
-		# self.chrome_options.add_argument("--remote-debugging-port=12345") # select a port
 		# self.chrome_options.add_argument('--incognito')
-		# self.chrome_options.add_argument("start-maximized")
-		self.chrome_options.add_argument("window-size=1920,1080")
+		self.chrome_options.add_argument("start-maximized")
 		self.chrome_options.add_argument("user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36")
 		self.chrome_options.add_argument("--disable-blink-features=AutomationControlled")
 		self.chrome_options.add_experimental_option("excludeSwitches", ["enable-automation"])
 		self.chrome_options.add_experimental_option("useAutomationExtension", False)
-		# find the path to the extension in the chrome store https://crxextractor.com/
-		path_to_extension = r"ublock/uBlock-Origin.crx"
-		self.chrome_options.add_extension(path_to_extension)
-		self.service = webdriver.ChromeService(executable_path="chromedriver-win64/chromedriver.exe")
-		# A telecharger ici : https://googlechromelabs.github.io/chrome-for-testing/known-good-versions-with-downloads.json
-		self.driver = webdriver.Chrome(service=self.service, options=self.chrome_options) # add service=self.service, if you want to use a specific version of chrome in local mode, else it will use the default chrome installed on your computer
+		self.driver = webdriver.Remote("http://172.25.0.5:4444", options=self.chrome_options)
+		self.driver.execute_script("Object.defineProperty(navigator, 'webdriver', {get: () => undefined})")
 		self.wait = WebDriverWait(self.driver, 20)
 
 	def get_url(self, url):
 		self.driver.get(url)
-		# injection de javascript pour récupérer les requêtes réseau (attention, pas toutes les requêtes sont récupérées)
-		# à vérifier (errror : circular reference)
-		# JS_get_network_requests = "var performance = window.performance || window.msPerformance || window.webkitPerformance || {}; var network = performance.getEntries() || {}; return network;"
-		# self.network_requests = self.driver.execute_script(JS_get_network_requests)
 		self.wait.until(EC.presence_of_element_located((By.TAG_NAME, 'body')))
 
 	def refresh(self):

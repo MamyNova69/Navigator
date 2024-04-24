@@ -67,6 +67,8 @@ class Navigator_vps_docker:
 		self.chrome_options.add_argument("--mute-audio")
 		self.chrome_options.add_argument('--log-level=3')
 		# self.chrome_options.add_argument('--incognito')
+		path_to_extension = r"ublock/uBlock-Origin.crx"
+		self.chrome_options.add_extension(path_to_extension)
 		self.chrome_options.add_argument("start-maximized")
 		self.chrome_options.add_argument("user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36")
 		self.chrome_options.add_argument("--disable-blink-features=AutomationControlled")
@@ -110,7 +112,7 @@ class Navigator_vps_docker:
 
 if __name__ == "__main__":
 
-	navigator = Navigator_local_chrome()
+	navigator = Navigator_vps_docker()
 	navigator.test()
 
 
